@@ -13,7 +13,35 @@ public class Runner {
         Book[] book = runner.PlusCountBook(runner.CreateBook());
         System.out.println("Увеличена цена на 10% :");
         runner.ReadBook(book);
-        runner.ReadBook(runner.SpisokAutor(book));
+
+        //Поиск автора
+        Book[] autor = runner.SpisokAutor(book);
+        if(autor.length==0)
+       {
+            System.out.println("Книги с данным автором ненайдено!");
+        }else
+        {
+            runner.ReadBook(autor);
+        }
+
+       //Список издательств
+        Book[] publisher = runner.SpisokPublisher(book);
+        if(publisher.length==0)
+        {
+            System.out.println("Книги с данным издательством  ненайдено!");
+        }else
+        {
+            runner.ReadBook(publisher);
+        }
+
+        //Список после указаного года
+        Book[] PublikYear = runner.SpisokPyublikYear(book);
+        if (PublikYear.length==0){
+            System.out.println("Книг после этого года издания нет!");
+        }else {
+            runner.ReadBook(PublikYear);
+        }
+
 
 
     }
@@ -21,14 +49,14 @@ public class Runner {
 
     public Book[] CreateBook() {
         return new Book[]{new Book(1, "Name1", "Autor1", "publisher1",
-                2000, 50, 100),
+                1999, 50, 100),
                 new Book(2, "Name2", "Autor2", "publisher2",
                         2001, 51, 101),
                 new Book(3, "Name3", "Autor1", "publisher3",
                         2002, 52, 102),
                 new Book(4, "Name4", "Autor4", "publisher4",
                         2003, 53, 103),
-                new Book(5, "Name5", "Autor5", "publisher5",
+                new Book(5, "Name5", "Autor5", "publisher1",
                         2004, 54, 104),
                 new Book(6, "Name6", "Autor1", "publisher6",
                         2005, 55, 105),
@@ -77,13 +105,65 @@ public class Runner {
 //         }
 //        }
 
-        for (int i = 0; i<book.length;i++){
-            if (book[i].getAutor().equalsIgnoreCase(autor)){
+        for (int i = 0; i<book.length;i++) {
+            if (book[i].getAutor().equalsIgnoreCase(autor)) {
                 booksAutor[count] = book[count];
                 count++;
             }
         }
+
+
         return Arrays.copyOf(booksAutor,count);
+
+
+
+    }
+
+
+    public Book[] SpisokPublisher(Book[] book) {
+        Book[] booksPublisher = new Book[book.length];
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите издательство");
+        String publisher = scanner.nextLine();
+        int count = 0;
+
+
+        for (int i = 0; i<book.length;i++) {
+            if (book[i].getPublisher().equalsIgnoreCase(publisher)) {
+                booksPublisher[count] = book[count];
+                count++;
+            }
+        }
+
+
+        return Arrays.copyOf(booksPublisher,count);
+
+    }
+
+    public Book[] SpisokPyublikYear(Book[] book) {
+        Book[] PyublikYear = new Book[book.length];
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите год издания:");
+        int pyublikYear = scanner.nextInt();
+        int count = 0;
+
+
+//        for (int i = 0; i<book.length;i++) {
+//            if (book[i].getYearPublisher() > pyublikYear) {
+//                PyublikYear[count] = book[count];
+//                count++;
+//            }
+//        }
+        for (Book b: book) {
+         if(b.getYearPublisher()>pyublikYear)
+         {
+          PyublikYear[count] = b;
+          count++;
+         }
+        }
+
+        return Arrays.copyOf(PyublikYear,count);
+
 
 
     }
